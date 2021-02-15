@@ -1,25 +1,75 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { Route, withRouter, Switch, BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import Header from './components/Header';
+import Login from './components/Login';
+import MessageForm from './components/MessageForm';
+import MessageList from './components/MessageList';
+import AuthRoute from './utils/AuthRoute';
 
-function App() {
+const App = ({ history }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  const tryLocalSignin = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
+  const logoutUser = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+  };
+
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header isLoggedIn={isLoggedIn} logoutUser={logoutUser} />
+      <div className="container">
+        <Switch>
+          <Route
+            render={() => (
+              <Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            )}
+            path="/"
+            exact
+          />
+          <>
+            <AuthRoute
+              path="/sent"
+              isLoggedIn={isLoggedIn}
+              component={MessageList}
+              exact
+            />
+            <AuthRoute
+              path="/inbox"
+              isLoggedIn={isLoggedIn}
+              component={MessageList}
+              exact
+            />
+            <MessageForm />
+          </>
+        </Switch>
+        <ToastContainer
+          position="top-right"
+          autoClose={3500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </div>
+    </>
   );
-}
+};
 
-export default App;
+export default withRouter(App);
