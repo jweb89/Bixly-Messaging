@@ -23,11 +23,8 @@ function MessageList({ location: { pathname } }) {
     fetch();
   }, [pathname]);
 
-  console.log(messages, isLoading, error);
-
   const onDeleteClick = async (id) => {
     const res = await deleteMessage(id);
-    console.log(res);
     if (res) {
       toast.error(res);
     } else {

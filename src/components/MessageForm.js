@@ -26,7 +26,6 @@ function MessageForm() {
     if (error) {
       toast.error(error);
       setIsSubmitting(false);
-      console.log(error);
     }
   };
 

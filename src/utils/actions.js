@@ -1,7 +1,6 @@
 import API from './apiService';
 
 export const loginUser = async ({ username, password }, callback) => {
-  console.log(username, password);
   try {
     const res = await API.post('/api-token-auth/', { username, password });
     if (res.data.token) {
@@ -11,26 +10,23 @@ export const loginUser = async ({ username, password }, callback) => {
     }
   } catch (err) {
     console.log(err);
-    return 'Something went wrong';
+    return 'Something went wrong. Please try again';
   }
 };
 
 export const fetchMessages = async (path, callback) => {
   let param;
-  console.log(path);
   if (path === '/sent') {
     param = '/messages/sent';
   } else {
     param = '/messages/';
   }
-  console.log(param);
   try {
     const res = await API.get(param);
-    console.log(res.data);
     callback(res.data.reverse());
     return null;
   } catch (err) {
-    console.log('error');
+    console.log(err);
     return 'Error fetching messages';
   }
 };

@@ -6,7 +6,6 @@ import { loginUser } from '../utils/actions';
 function Login({ setIsLoggedIn, history, isLoggedIn }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  // const [email, ]
 
   const requiredFieldValidate = (value) => {
     let error;
