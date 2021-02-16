@@ -96,7 +96,7 @@ function MessageForm() {
                   {isSubmitting ? (
                     <button
                       type="button"
-                      className="btn btn-outline-primary mr-2"
+                      className="btn btn-outline-light mr-2"
                     >
                       Please Wait...
                     </button>
